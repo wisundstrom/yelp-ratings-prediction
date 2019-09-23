@@ -1,3 +1,8 @@
+
+#sql connection
+sql_server_connection.*
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
