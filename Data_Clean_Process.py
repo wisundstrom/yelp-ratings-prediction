@@ -170,11 +170,13 @@ def clean_data(data):
     
     #this makes all the categorical columns strings
     data[categorical_features]=data[categorical_features].astype(str)
+    data = data
     
     return data, numerical_features, categorical_features
 
-def tt_split(dataframe):
+def tt_split(dataframe,numerical_features, categorical_features):
     data=dataframe.drop(['business_id','restaurant','target'],axis=1)
+    data=pd.concat([data[numerical_features],data[categorical_features]],axis=1)
     target=dataframe.target
     X_train, X_test, y_train, y_test = train_test_split(data, target, test_size=0.2, random_state=50)
     return X_train, X_test, y_train, y_test
