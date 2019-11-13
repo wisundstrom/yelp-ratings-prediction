@@ -18,7 +18,7 @@ def top_models(results):
     results_df.index=['rf_results', 'svm_mc_results', 'svm_ny_results', 'log_results']
     return results_df
 
-def feature_importance(model, X_train, categorical_features):
+def feature_importance(model, X_train, categorical_features, numerical_features):
     """ This returns a dataframe with features and their importances. Input should be a
     fitted random forest model, the training data and the list of categorical features"""
     
@@ -28,5 +28,5 @@ def feature_importance(model, X_train, categorical_features):
     feature_names=numerical_features+list(categorical_names)
     importances_df=pd.concat([pd.DataFrame(importances),pd.DataFrame(feature_names)],axis=1)
     importances_df.columns=['Importance','Feature']
-    importances_df.sort_values(by='Importance',ascending=False)
+    importances_df=importances_df.sort_values(by='Importance',ascending=False)
     return importances_df
