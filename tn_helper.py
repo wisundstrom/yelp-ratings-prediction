@@ -29,4 +29,4 @@ def feature_importance(model, X_train, categorical_features, numerical_features)
     importances_df=pd.concat([pd.DataFrame(importances),pd.DataFrame(feature_names)],axis=1)
     importances_df.columns=['Importance','Feature']
     importances_df=importances_df.sort_values(by='Importance',ascending=False)
-    return importances_df
+    return importances_df, ohe
