@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.compose import ColumnTransformer, make_column_transformer
 
 def top_models(results):
     """this takes in a list of (sorted) cross validation data frames and returns the best result from each"""
@@ -34,7 +35,7 @@ def feature_importance(model, X_train, categorical_features, numerical_features,
     importances_df=importances_df.sort_values(by='Importance',ascending=False)
     return importances_df
 
-def quick_f_i_plot():
+def quick_f_i_plot(X_train, X_test, y_train, y_test, categorical_features, numerical_features):
     """ """
     preprocess_no_drop = make_column_transformer(
     (StandardScaler(), numerical_features),
@@ -53,7 +54,7 @@ def quick_f_i_plot():
 
     print('Testing Accuracy: ', random_forest_no_drop.score(t_X_test_no_drop,y_test))
 
-    importances_df_no_drop=tn.feature_importance(random_forest_no_drop, X_train, categorical_features, numerical_features, drop=False)
+    importances_df_no_drop=feature_importance(random_forest_no_drop, X_train, categorical_features, numerical_features, drop=False)
 
     decoded_imports2=[]
     for idx, feature in enumerate(categorical_features):
@@ -64,3 +65,5 @@ def quick_f_i_plot():
     decode_df2=pd.DataFrame(decoded_imports2, columns=['Importance','Feature'])
     full_decoded_df2=pd.concat([importances_df_no_drop[0:15], decode_df2], axis=0)
     full_decoded_df2.sort_values('Importance', inplace=True, ascending=False)
+    
+    return full_decoded_df2
